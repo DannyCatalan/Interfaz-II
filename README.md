@@ -27,6 +27,8 @@ void loop() {   // Se repite infinitamente
   delay(1000);             // Esperar 1 segundo
 }
 ```
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/led%20parpadeante.png"/>
+
 
 #### Ejercicio n° 3: LED con pulsador
 
@@ -43,6 +45,7 @@ void loop() {
   }
 }
 ```
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/led%20con%20pulsador.png"/>
 
 #### Ejercicio n°4: LED con potenciómetro
 
@@ -56,6 +59,7 @@ void loop() {
   analogWrite(9, brillo);               // Ajustar brillo
 }
 ```
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/led%20con%20potenciometro.png"/>
 
 #### Ejercicio n°5: Semaforo
 
@@ -107,5 +111,4 @@ void loop() {
 ```
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/semaforo.png"/>
 
-```
 
