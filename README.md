@@ -12,6 +12,7 @@ void loop() {
   // No es necesario poner nada en el loop para este ejemplo
 }
 ```
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/Hola%20mundo.png"/>
 
 #### Ejercicio n° 2: LED intermitente 
 
