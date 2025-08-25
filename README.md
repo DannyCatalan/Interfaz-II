@@ -105,7 +105,7 @@ void loop() {
   // delay(2000); // 2 segundos
 }
 ```
-##### https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/semaforo.png
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/semaforo.png
 
 ```
 
