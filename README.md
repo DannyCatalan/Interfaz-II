@@ -338,4 +338,4 @@ class CircleData {
 }
 ```
 
-<img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/arduino%2Bboton%2Bpotenciometro%2Bprocessing.png"/>
+<img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/Arduino%2BBoton%2Bpotenciometro%2BProcessing.png"/>
