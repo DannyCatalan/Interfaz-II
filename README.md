@@ -497,3 +497,4 @@ void playTrack(int index) {
 }
 ```
 <img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/botonera%20%2B%20audio.png" />
+<img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/botonera%20fisica.jpg" />
