@@ -187,6 +187,7 @@ void draw()
 }
 ```
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/arduino_processing.png"/>
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/arduino%20processing.jpg"/>
 
 #### Ejercicio n°7: Arduino + Boton + Processing
 ###### Codigo Arduino 
@@ -343,7 +344,7 @@ class CircleData {
 
 <img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/Arduino%2BBoton%2Bpotenciometro%2BProcessing.png"/>
 
-#### Ejercicio n°9: Botonera + audio
+#### Ejercicio n°10: Botonera + audio
 ###### Codigo Arduino
 
 ```js
