@@ -658,4 +658,4 @@ class CircleData {
 }
 ```
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/Ejercicio%20con%20nota%20processing.png" />
-<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/circuito%20fisico.jpg" />
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/circuito%20fisico%20arreglado.jpg" />
