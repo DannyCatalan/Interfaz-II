@@ -29,6 +29,7 @@ void loop() {   // Se repite infinitamente
 }
 ```
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/led%20parpadeante.png"/>
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/led%20parpadeante.jpg"/> 
 
 
 #### Ejercicio n° 3: LED con pulsador
@@ -61,6 +62,7 @@ void loop() {
 }
 ```
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/led%20con%20potenciometro.png"/>
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/led%20con%20potenciometro.jpg"/> 
 
 #### Ejercicio n°5: Semaforo
 
@@ -120,6 +122,7 @@ void loop() {
 }
 ```
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/semaforo.png"/>
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/semaforo.jpg"/>
 
 #### Ejercicio n°6: Arduino processing
 ###### Codigo Arduino
