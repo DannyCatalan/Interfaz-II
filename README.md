@@ -502,3 +502,160 @@ void playTrack(int index) {
 ```
 <img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/botonera%20%2B%20audio.png" />
 <img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/botonera%20fisica.jpg" />
+
+#### Ejercicio con nota: Arduino + Processing + potenciometro + Boton 
+###### Codigo Arduino
+
+```js
+// Pines del circuito
+const int potPin = A0;      // Pin del potenciómetro (analógico)
+const int buttonPin1 = 2;   // Pin del Botón 1 (Digital)
+const int buttonPin2 = 4;   // Pin del Botón 2 (Digital)
+const int buttonPin3 = 6;   // Pin del Botón 3 (Digital)
+
+// Variables para guardar los estados
+int buttonState1 = 0;
+int buttonState2 = 0;
+int buttonState3 = 0;
+int potValue = 0;
+
+void setup() {
+  // Configurar los pines de los botones como entrada con resistencia PULLUP
+  // HIGH por defecto, LOW al presionarse (conectado a GND)
+  pinMode(buttonPin1, INPUT_PULLUP);
+  pinMode(buttonPin2, INPUT_PULLUP);
+  pinMode(buttonPin3, INPUT_PULLUP);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Leer el valor del potenciómetro (0-1023)
+  potValue = analogRead(potPin);
+
+  // Leer el estado de los botones
+  buttonState1 = digitalRead(buttonPin1);
+  buttonState2 = digitalRead(buttonPin2);
+  buttonState3 = digitalRead(buttonPin3);
+
+  // Enviamos datos solo si ALGÚN botón está presionado (estado es LOW)
+  if (buttonState1 == LOW || buttonState2 == LOW || buttonState3 == LOW) {
+    
+    // Formato de envío: POT,potValue,B1,b1State,B2,b2State,B3,b3State
+    Serial.print("POT,");
+    Serial.print(potValue);
+    Serial.print(",B1,");
+    
+    // Convertimos el estado de LOW(0) a 1 (Presionado) y HIGH(1) a 0 (No Presionado)
+    Serial.print(buttonState1 == LOW ? 1 : 0); 
+    Serial.print(",B2,");
+    Serial.print(buttonState2 == LOW ? 1 : 0);
+    Serial.print(",B3,");
+    Serial.println(buttonState3 == LOW ? 1 : 0); // println agrega el '\n'
+    
+    delay(150); // Debounce simple y control de velocidad de datos
+  }
+}
+```
+
+###### Codigo Processing
+
+```js
+import processing.serial.*;
+
+Serial myPort;
+ArrayList<CircleData> circles; 
+
+// Variables para guardar el estado de los botones y el potenciómetro
+float potValue = 0; 
+int buttonState1 = 0;
+int buttonState2 = 0;
+int buttonState3 = 0;
+
+
+void setup() {
+  size(1200, 720);
+  background(0);
+  
+  // Muestra la lista de puertos disponibles en la consola de Processing
+  println(Serial.list());
+  
+  // **¡IMPORTANTE!** Reemplaza 'Serial.list()[0]' con el nombre correcto de tu puerto 
+  // si el primer puerto no es tu Arduino (e.g., "COM3", "/dev/tty.usbmodem12345")
+  myPort = new Serial(this, Serial.list()[0], 9600); 
+  
+  circles = new ArrayList<CircleData>();
+}
+
+void draw() {
+  background(0, 10); // Fondo con transparencia para un efecto de "rastro" suave
+  
+  // Dibujar todos los círculos guardados
+  for (CircleData c : circles) {
+    fill(c.r, c.g, c.b, 180); 
+    noStroke();
+    ellipse(c.x, c.y, c.size, c.size);
+  }
+  
+  // Leer datos de Arduino
+  if (myPort.available() > 0) {
+    String val = myPort.readStringUntil('\n');
+    if (val != null) {
+      val = trim(val);
+      
+      if (val.startsWith("POT")) {
+        // Ejemplo de val: "POT,450,B1,1,B2,0,B3,0"
+        String[] parts = split(val, ','); 
+        
+        // Debe haber 8 partes
+        if (parts.length == 8) {
+          
+          // 1. Extraer valor del Potenciómetro
+          potValue = float(parts[1]);
+          // **ARREGLO:** Mapeamos el valor 0-1023 a un rango de tamaño 20-300 píxeles
+          float circleSize = map(potValue, 0, 1023, 20, 300); 
+
+          // 2. Extraer estados de los botones (1 = Presionado, 0 = No Presionado)
+          buttonState1 = int(parts[3]); 
+          buttonState2 = int(parts[5]); 
+          buttonState3 = int(parts[7]); 
+
+          // Lógica: Si un botón está presionado, añade un círculo con el tamaño del pot
+          
+          if (buttonState1 == 1) { // Botón 1 (Rojo)
+             circles.add(new CircleData(random(width), random(height), circleSize, 255, 0, 0));
+          }
+          if (buttonState2 == 1) { // Botón 2 (Verde)
+             circles.add(new CircleData(random(width), random(height), circleSize, 0, 255, 0));
+          }
+          if (buttonState3 == 1) { // Botón 3 (Azul)
+             circles.add(new CircleData(random(width), random(height), circleSize, 0, 0, 255));
+          }
+        }
+      }
+    }
+  }
+  
+  // Limitar la cantidad de círculos
+  if (circles.size() > 75) {
+    circles.remove(0); 
+  }
+}
+
+// Clase para guardar datos de cada círculo, incluyendo color
+class CircleData {
+  float x, y, size;
+  int r, g, b;
+  
+  CircleData(float x, float y, float size, int r, int g, int b) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.r = r;
+    this.g = g;
+    this.b = b;
+  }
+}
+```
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/Ejercicio%20con%20nota.png" />
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/circuito%20fisico.jpg" />
