@@ -724,3 +724,24 @@ void draw()
   ellipse(width/2, height/2, d, d);   
 
 }
+```
+
+<img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/Sensor%20Sharp.png" />
+
+
+#### Ejercicio n°12: Sensor Humedad
+
+```js
+void setup()
+{
+  Serial.begin(9600);// abre el puerto serial y Establece la velocidad en baudios a 9600 bps
+}
+void loop()
+{
+  int sensorValue;
+  sensorValue = analogRead(0);   //conectar el sensor de humedad al pin analogo 0
+  Serial.println(sensorValue); //imprime el valor a serial.
+  delay(200);
+}
+```
+<img src= "https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/Sensor%20Humedad.png" />
