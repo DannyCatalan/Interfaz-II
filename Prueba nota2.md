@@ -1,7 +1,7 @@
 # Presentacion proyecto
 ##### Caos Organico: Jean Arp y suika game
 
-###### Codigo de Arduini¿o
+###### Codigo de Arduino
 ```js
 // --- Pines de conexión ---
 const int btnColor = 4;
@@ -266,4 +266,25 @@ class Forma {
     tam = random(30, 80);
   }
 }
+```
+######## Primeros codigos!
+######## Componentes del circuito:
+
+```js
+boton 1 (pin 4) - controla color
+boton 2 (pin 6) - controla tamaño
+boton 3 (pin 8) - controla caida
+boton 4 (pin 10) - resetea el juego
+```
+```js
+Joystick X/Y/boton
+X - Horizontal
+Y - Vertical (no hace nada)
+boton - (no hace nada)
+```
+```js
+LED 3 RGB - rojo, verde, azul.
+Rojo - Colapso y fin del juego.
+Verde - Se deja caer la forma
+Azul - Se juntan 2 figuras iguales.
 ```
