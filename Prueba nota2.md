@@ -1,5 +1,7 @@
 # Presentacion proyecto
-##### Caos Organico: Jean Arp y suika game
+##### Caos Organico: Jean Arp y Suika Game
+
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/circuito%20final.jpg"/>
 
 ###### Codigo de Arduino
 ```js
