@@ -270,7 +270,7 @@ class Forma {
 }
 ```
 #### Primeros codigos!
-###### Componentes del circuito:
+###### Componentes e indicaciones del circuito:
 
 ```js
 boton 1 (pin 4) - controla color
@@ -288,5 +288,294 @@ boton - (no hace nada)
 LED 3 RGB - rojo, verde, azul.
 Rojo - Colapso y fin del juego.
 Verde - Se deja caer la forma
+Azul - Se juntan 2 figuras iguales.
+```
+
+#### Probar nuevos codigos en casa.
+###### Codigo Arduino
+```js
+// --- Pines del joystick y botones ---
+int joyX = A0;
+int joyY = A1;
+int joyBtn = 2;
+
+int btn1 = 4; // Color
+int btn2 = 5; // Tamaño
+int btn3 = 6; // Forma
+int btn4 = 7; // Reinicio
+
+// --- LED RGB ---
+int ledR = 8;
+int ledG = 9;
+int ledB = 10;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(joyX, INPUT);
+  pinMode(joyY, INPUT);
+  pinMode(joyBtn, INPUT_PULLUP);
+
+  pinMode(btn1, INPUT_PULLUP);
+  pinMode(btn2, INPUT_PULLUP);
+  pinMode(btn3, INPUT_PULLUP);
+  pinMode(btn4, INPUT_PULLUP);
+
+  pinMode(ledR, OUTPUT);
+  pinMode(ledG, OUTPUT);
+  pinMode(ledB, OUTPUT);
+
+  apagarLED();
+}
+
+void loop() {
+  // --- Leer joystick y botones ---
+  int x = map(analogRead(joyX), 0, 1023, -100, 100);
+  int y = map(analogRead(joyY), 0, 1023, -100, 100);
+  int btnJoy = !digitalRead(joyBtn);
+
+  int b1 = !digitalRead(btn1);
+  int b2 = !digitalRead(btn2);
+  int b3 = !digitalRead(btn3);
+  int b4 = !digitalRead(btn4);
+
+  // --- Enviar datos a Processing ---
+  Serial.print(x); Serial.print(",");
+  Serial.print(y); Serial.print(",");
+  Serial.print(b1); Serial.print(",");
+  Serial.print(b2); Serial.print(",");
+  Serial.print(b3); Serial.print(",");
+  Serial.print(b4); Serial.print(",");
+  Serial.println(btnJoy);
+
+  // --- Recibir mensajes desde Processing ---
+  if (Serial.available() > 0) {
+    String msg = Serial.readStringUntil('\n');
+    msg.trim();
+
+    if (msg == "RED") parpadeoRojo();
+    else if (msg == "BLUE") parpadeoAzul();
+    else if (msg == "GREEN_ON") encenderVerde();   // ✅ ahora existe
+    else if (msg == "GREEN_OFF") apagarLED();      // ✅ apaga verde
+    else if (msg == "RESET") apagarLED();
+  }
+
+  delay(100);
+}
+
+// --- Funciones LED RGB ---
+void parpadeoRojo() {
+  analogWrite(ledR, 255);
+  analogWrite(ledG, 0);
+  analogWrite(ledB, 0);
+  delay(150);
+  apagarLED();
+}
+
+void parpadeoAzul() {
+  analogWrite(ledR, 0);
+  analogWrite(ledG, 0);
+  analogWrite(ledB, 255);
+  delay(150);
+  apagarLED();
+}
+
+void encenderVerde() {
+  analogWrite(ledR, 0);
+  analogWrite(ledG, 255);
+  analogWrite(ledB, 0);
+}
+
+void apagarLED() {
+  analogWrite(ledR, 0);
+  analogWrite(ledG, 0);
+  analogWrite(ledB, 0);
+}
+```
+###### Codigo Processing
+```js
+import processing.serial.*;
+Serial myPort;
+
+// --- Control y formas ---
+ArrayList<Forma> formas;
+Forma activa;
+boolean cayendo = false;
+int formaTipo = 0;
+
+// --- Comunicación con Arduino ---
+int joyX, joyY;
+boolean joyBtn;
+boolean[] botones = new boolean[4];
+
+color[] paleta = {
+  #F5D5AE, #EBA89A, #D7C7D0, #9FC7AA, #7A8B8F
+};
+
+void setup() {
+  size(800, 800);
+  colorMode(HSB, 360, 100, 100);
+  noStroke();
+
+  // --- Puerto Serial ---
+  String portName = "COM6";  // 👈 ajusta según tu puerto real
+  myPort = new Serial(this, portName, 9600);
+  myPort.bufferUntil('\n');
+
+  formas = new ArrayList<Forma>();
+  activa = new Forma(width/2, 100, paleta[0], formaTipo);
+}
+
+void draw() {
+  background(245, 15, 95);
+
+  actualizarControles();
+  for (Forma f : formas) f.display();
+  activa.display();
+
+  if (cayendo) {
+    activa.caer();
+    myPort.write("GREEN_ON\n"); // LED verde encendido mientras cae
+    if (activa.y > height - 50) { // colisión básica
+      cayendo = false;
+      formas.add(activa);
+      activa = new Forma(width/2, 100, paleta[int(random(paleta.length))], formaTipo);
+      myPort.write("GREEN_OFF\n");
+      myPort.write("BLUE\n"); // LED azul al caer
+    }
+  } else {
+    myPort.write("GREEN_OFF\n");
+  }
+}
+
+// --- Leer datos del Arduino ---
+void serialEvent(Serial p) {
+  String inString = p.readStringUntil('\n');
+  if (inString == null) return;
+
+  inString = trim(inString);
+  String[] parts = split(inString, ',');
+  if (parts.length < 7) return;
+
+  joyX = int(parts[0]);
+  joyY = int(parts[1]);
+  botones[0] = parts[2].equals("1"); // btnColor
+  botones[1] = parts[3].equals("1"); // btnSize
+  botones[2] = parts[4].equals("1"); // btnForma
+  botones[3] = parts[5].equals("1"); // btnReset
+  joyBtn     = parts[6].equals("1"); // botón del joystick
+}
+
+// --- Lógica de control ---
+void actualizarControles() {
+  if (botones[0]) { // cambia color
+    activa.cambiarColor(paleta[int(random(paleta.length))]);
+    myPort.write("RED\n");
+    delay(200);
+  }
+
+  if (botones[1]) { // cambia tamaño
+    activa.cambiarTamano(random(40, 120));
+    delay(200);
+  }
+
+  if (botones[2]) { // cambia forma (Jean Arp)
+    formaTipo = (formaTipo + 1) % 3;
+    activa.cambiarForma(formaTipo);
+    myPort.write("RED\n"); // rojo = cambio de forma
+    delay(200);
+  }
+
+  if (joyBtn && !cayendo) { // botón del joystick inicia caída
+    cayendo = true;
+  }
+
+  if (botones[3]) { // reset
+    formas.clear();
+    activa = new Forma(width/2, 100, paleta[0], formaTipo);
+    myPort.write("RESET\n");
+    delay(200);
+  }
+}
+
+// --- Clase de Forma (inspirada en Jean Arp) ---
+class Forma {
+  float x, y, tam;
+  color c;
+  int tipo;
+
+  Forma(float x_, float y_, color c_, int tipo_) {
+    x = x_;
+    y = y_;
+    c = c_;
+    tam = 80;
+    tipo = tipo_;
+  }
+
+  void display() {
+    fill(c);
+    pushMatrix();
+    translate(x, y);
+
+    switch (tipo) {
+      case 0:
+        ellipse(0, 0, tam, tam * 0.9);
+        break;
+      case 1:
+        beginShape();
+        for (float a = 0; a < TWO_PI; a += 0.2) {
+          float r = tam * 0.4 + noise(a, frameCount * 0.02) * tam * 0.3;
+          vertex(cos(a) * r, sin(a) * r);
+        }
+        endShape(CLOSE);
+        break;
+      case 2:
+        beginShape();
+        for (float a = 0; a < TWO_PI; a += 0.25) {
+          float r = tam * 0.3 + sin(a * 3 + frameCount * 0.02) * tam * 0.2;
+          vertex(cos(a) * r, sin(a) * r);
+        }
+        endShape(CLOSE);
+        break;
+    }
+    popMatrix();
+  }
+
+  void caer() {
+    y += 5;
+  }
+
+  void cambiarColor(color nuevo) {
+    c = nuevo;
+  }
+
+  void cambiarTamano(float nuevoTam) {
+    tam = nuevoTam;
+  }
+
+  void cambiarForma(int nuevoTipo) {
+    tipo = nuevoTipo;
+  }
+}
+```
+
+###### Componentes e indicaciones del circuito:
+
+```js
+boton 1 (pin 4) - controla color
+boton 2 (pin 6) - controla tamaño
+boton 3 (pin 8) - controla la forma aleatoriamente
+boton 4 (pin 10) - resetea el juego
+```
+```js
+Joystick X/Y/boton
+X - Horizontal
+Y - Vertical (no hace nada)
+boton - Deja caer la forma
+```
+```js
+LED 3 RGB - rojo, verde, azul.
+Rojo - Colapso y fin del juego.
+Verde - Se deja caer la forma, se mantiene brillando hasta caer y colicionar con otra.
 Azul - Se juntan 2 figuras iguales.
 ```
