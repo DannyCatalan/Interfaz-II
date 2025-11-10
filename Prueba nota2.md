@@ -267,8 +267,8 @@ class Forma {
   }
 }
 ```
-######## Primeros codigos!
-######## Componentes del circuito:
+#### Primeros codigos!
+###### Componentes del circuito:
 
 ```js
 boton 1 (pin 4) - controla color
