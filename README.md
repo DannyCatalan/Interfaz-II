@@ -3,6 +3,19 @@
 Indice:
 1. [Hola Mundo!](#ejercicio-n-1-hola-mundo) <br>
 2. [LED intermitente](#ejercicio-n-2-led-intermitente) <br>
+3. [LED con pulsador](#ejercicio-n-3-led-con-pulsador) <br>
+4. [LED con potenciometro](#ejercicio-n4-led-con-potenci%C3%B3metro) <br>
+5. [Semaforo](#ejercicio-n5-semaforo) <br>
+6. [Arduino-Processing](#ejercicio-n6-arduino-processing) <br>
+7. [Arduino+Boton+Processing](#ejercicio-n7-arduino--boton--processing) <br>
+8. [Arduino + botón + potenciometro + Processing](#ejercicio-n8-arduino--bot%C3%B3n--potenciometro--processing) <br>
+10. [Botonera + Audio](https://github.com/DannyCatalan/Interfaz-II/blob/main/README.md#ejercicio-n10-botonera--audio) <br>
+0. [Ejercicio con nota](#ejercicio-con-nota-arduino--processing--potenciometro--boton) <br>
+11. [Sensor Sharp](#ejercicio-n11-sensor-sharp) <br>
+12. [Sensor Humedad](#ejercicio-n12-sensor-humedad) <br>
+13. [Cuerpo, video y sensor](#ejercicio-n13-cuerpo-video-y-sensor) <br>
+14. [Promedio de imagenes](#ejercicio-n14-promedio-de-imagenes) <br>
+15. [Promedio de imágenes llamando una carpeta + potenciometro](#ejercicio-n15-promedio-de-im%C3%A1genes-llamando-una-carpeta--potenciometro) <br>
 
 ##### Ejercicio n° 1: Hola Mundo!
 
