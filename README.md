@@ -2,7 +2,7 @@
 
 Indice:
 1. [Hola Mundo!](#ejercicio-n-1-hola-mundo) <br>
-2. [LED intermitente]()
+2. [LED intermitente](#ejercicio-n-2-led-intermitente) <br>
 
 ##### Ejercicio n° 1: Hola Mundo!
 
