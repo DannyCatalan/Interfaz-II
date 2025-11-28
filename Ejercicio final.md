@@ -1,7 +1,18 @@
 # Presentacion proyecto final
 ##### Caos Organico: Jean Arp y Suika Game
 
+#### Circuito a utilizar: 
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/circuito%20final.jpg"/>
+
+###### Componentes:
+```js
+1. Placa arduino uno
+2. Protoboar
+3. Botones
+4. Cables
+4. LED RGB catodo comun
+5. Modulo joystick XY
+```
 
 ###### Codigo de Arduino
 ```js
@@ -462,5 +473,6 @@ void aplicarPaleta(int nivel) {
 }
 ```
 
+<img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/entrega.jpg"/>
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/fondo%20suika-arp.jpg"/>
 
