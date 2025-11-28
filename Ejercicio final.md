@@ -1,4 +1,4 @@
-# Presentacion proyecto
+# Presentacion proyecto final
 ##### Caos Organico: Jean Arp y Suika Game
 
 <img src="https://raw.githubusercontent.com/DannyCatalan/Interfaz-II/refs/heads/main/img/circuito%20final.jpg"/>
